@@ -7,42 +7,49 @@
     <title>Document</title>
 
     <style>
-        body {
-            background-color: rgb(226, 176, 157);
-            display: flex;
-              flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        #box1 {
-            background-color: aliceblue;
-            width: 40%;
-            height: 70%;
-            font-size: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #video1 {
+      body {
+          background-color: rgb(226, 176, 157);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          margin: 0;
+      }
+      #box1 {
+          background-color: aliceblue;
+          width: 90%;
+          max-width: 500px;
+          height: 50vh;
+          font-size: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          border-radius: 10px;
+      }
+        #video1,#video3 {
             width: 100%;
             height: 100%;
+            object-fit: cover;
             display: none;
         }
-
-        #video3{
-            width: 100%;
-            height: 100%;
+        #gift {
+            padding: 20px 40px;
+            font-size: 28px;
+            border-radius: 20px;
+            margin: 30px;
             display: none;
         }
-        #gift{
-            padding: 50px 80px;
-            font-size: 60px;
-            border-radius: 40px;
-            margin: 50px;
-            display: none;
+        @media (max-width:600px) {
+            #box1{
+                height: 40vh;
+                font-size: 28px;
+            }
+            #gift{
+                padding: 15px 30px;
+                font-size: 22px;
+            }
         }
     </style>
 </head>
@@ -65,5 +72,6 @@
 
 
 </body>
+
 
 </html>

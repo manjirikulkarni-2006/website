@@ -5,7 +5,7 @@ let text = document.getElementById("text");
 let gift = document.getElementById("gift");
 let video3 = document.getElementById("video3");
 
-let music = document.getElementById("bgmusic"); // background music
+let music = document.getElementById("bgmusic");
 
 box1.addEventListener("click", function () {
 
@@ -14,14 +14,19 @@ box1.addEventListener("click", function () {
     video1.style.display = "block";
     video1.play();
 
-    music.play(); // start music
-
-    // show gift button after video finishes
-    video1.onended = function () {
-        gift.style.display = "block";
-    };
+    music.play();
 
 });
+
+/* Show gift button when first video ends */
+
+video1.addEventListener("ended", function () {
+
+    gift.style.display = "block";
+
+});
+
+/* Gift button click */
 
 gift.addEventListener("click", function () {
 

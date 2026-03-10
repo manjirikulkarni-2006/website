@@ -1,174 +1,410 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gift Surprise</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎁 surprise vault · cinematic gift</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
 
-<style>
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
-
-body{
-    font-family: 'Poppins', sans-serif;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    min-height:100vh;
-    margin:0;
-}
-
-/* Background video */
-
-#bgvideo{
-    position:fixed;
-    right:0;
-    bottom:0;
-    min-width:100%;
-    min-height:100%;
-    object-fit:cover;
-    z-index:-1;
-}
-
-/* Main Box */
-
-#box1{
-    position:relative;
-    background:rgba(255,255,255,0.9);
-    width:90%;
-    max-width:500px;
-    height:50vh;
-    font-size:36px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
-    overflow:hidden;
-    cursor:pointer;
-}
-
-/* Text */
-
-#text{
-    position:absolute;
-    z-index:2;
-}
-
-/* First Video */
-
-#video1{
-    position:absolute;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    border-radius:20px;
-    display:none;
-}
-
-/* Second Video Container */
-
-#video_container{
-    width:90%;
-    max-width:500px;
-    height:50vh;
-    margin-top:20px;
-}
-
-/* Second Video */
-
-#video3{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    border-radius:20px;
-    display:none;
-}
-
-/* Gift Button */
-
-#gift{
-    padding:18px 45px;
-    font-size:24px;
-    border-radius:50px;
-    margin:30px;
-    border:none;
-    cursor:pointer;
-    background:linear-gradient(45deg,#ff6a88,#ff99ac);
-    color:white;
-    font-weight:600;
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
-    transition:0.3s;
-    display:none;
-}
-
-#gift:hover{
-    transform:scale(1.1);
-}
-
-/* Mobile */
-
-@media (max-width:600px){
-
-    #box1{
-        height:40vh;
-        font-size:26px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    #video_container{
-        height:40vh;
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #0b0509;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 16px;
     }
 
-    #gift{
-        padding:15px 30px;
-        font-size:20px;
+    /* ---------- enchanted background layer ---------- */
+    .bg-video-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
     }
 
-}
+    #bgvideo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.45) saturate(1.4) hue-rotate(320deg) blur(3px);
+      transform: scale(1.03);
+    }
 
-</style>
+    .glow-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 50%, rgba(255, 140, 170, 0.25) 0%, rgba(10, 2, 8, 0.8) 80%);
+      z-index: -1;
+      pointer-events: none;
+    }
 
+    /* floating orbs (whimsical) */
+    .orb {
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffb3cb, #ff4d7a);
+      filter: blur(70px);
+      opacity: 0.2;
+      top: -50px;
+      right: -50px;
+      z-index: -1;
+      animation: float 18s infinite alternate ease-in-out;
+    }
+
+    .orb2 {
+      bottom: -80px;
+      left: -40px;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle at 70% 70%, #c47aff, #b3426f);
+      filter: blur(90px);
+      opacity: 0.2;
+      animation: float2 22s infinite alternate;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(50px, 40px) scale(1.3); }
+    }
+    @keyframes float2 {
+      0% { transform: translate(0, 0) scale(1.2); }
+      100% { transform: translate(-40px, -30px) scale(1); }
+    }
+
+    /* ---------- main gift card (box1) ---------- */
+    .card-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    #box1 {
+      position: relative;
+      width: 90%;
+      max-width: 620px;
+      height: 52vh;
+      max-height: 460px;
+      border-radius: 48px 48px 36px 36px;
+      background: rgba(15, 8, 12, 0.2);
+      backdrop-filter: blur(14px) brightness(0.9);
+      box-shadow: 0 30px 50px -10px #260e1a,
+                  0 0 0 2px rgba(255, 200, 220, 0.5) inset,
+                  0 0 50px #ff8eae70;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    #box1:hover {
+      box-shadow: 0 40px 70px -8px #ff5277, 0 0 0 3px #ffe6f0 inset, 0 0 80px #ff90b0;
+      transform: scale(1.01) translateY(-4px);
+    }
+
+    /* click text — luxurious */
+    #text {
+      position: absolute;
+      z-index: 10;
+      color: #fff9fb;
+      font-weight: 700;
+      font-size: clamp(2.4rem, 12vw, 4rem);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      text-align: center;
+      text-shadow: 0 0 20px #ffbecf, 0 0 50px #ff98b3, 4px 6px 15px #2f0e1c;
+      background: rgba(255, 225, 235, 0.15);
+      backdrop-filter: blur(16px);
+      padding: 0.8rem 2.8rem;
+      border-radius: 140px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transform: rotate(-0.5deg);
+      transition: 0.4s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #box1:hover #text {
+      letter-spacing: 14px;
+      background: rgba(255, 210, 230, 0.25);
+      box-shadow: 0 0 60px #ff9ebd;
+      border-color: rgba(255, 255, 255, 0.8);
+      transform: scale(1.02) rotate(-0.2deg);
+    }
+
+    /* first video (reveal inside card) */
+    #video1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      display: none;
+      z-index: 5;
+      box-shadow: inset 0 0 30px #ffa0bb;
+    }
+
+    /* ---------- gift button (luxe) ---------- */
+    .button-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    #gift {
+      padding: 20px 60px;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      background: linear-gradient(145deg, #ff8aae, #ff4f75, #bc6cff);
+      background-size: 220% 220%;
+      border: none;
+      border-radius: 120px;
+      color: white;
+      text-shadow: 0 2px 10px #56002b;
+      box-shadow: 0 30px 40px -10px #b31e4b, 0 0 40px #ffbaca, 0 5px 0 #832a48;
+      cursor: pointer;
+      display: none;
+      margin: 32px 0 28px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: 0.25s ease-out;
+      animation: pulseGlow 3s infinite alternate;
+      backdrop-filter: blur(6px);
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 30px 45px -10px #ff5678, 0 0 40px #ffb3c6, 0 5px 0 #832a48; }
+      100% { box-shadow: 0 40px 55px -6px #ff2f5e, 0 0 75px #ffd2df, 0 6px 0 #631f37; }
+    }
+
+    #gift:hover {
+      transform: scale(1.07) translateY(-5px);
+      background: linear-gradient(145deg, #ffb7cf, #ff6f94, #d28eff);
+      box-shadow: 0 40px 60px -8px #ff3e6b, 0 0 90px #ffe4f0;
+    }
+
+    #gift:active {
+      transform: scale(0.96) translateY(4px);
+      box-shadow: 0 12px 20px #a13055;
+    }
+
+    /* ---------- second video container (final surprise) ---------- */
+    .video2-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    #video_container {
+      width: 90%;
+      max-width: 620px;
+      height: 52vh;
+      max-height: 460px;
+      border-radius: 42px;
+      background: #190e14;
+      box-shadow: 0 30px 55px -15px #3f1326, 0 0 0 2px #ffb7cc, 0 0 60px #c44f7b;
+      overflow: hidden;
+      transition: 0.4s;
+      margin-top: 10px;
+    }
+
+    #video_container:hover {
+      box-shadow: 0 35px 70px -10px #ff88ae, 0 0 0 4px #ffe3f0, 0 0 80px #ff98bb;
+    }
+
+    #video3 {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 42px;
+      display: none;
+      background: #12080d;
+    }
+
+    /* extra charm note */
+    .foot-note {
+      color: rgba(255, 220, 240, 0.4);
+      font-size: 0.9rem;
+      margin-top: 20px;
+      font-weight: 300;
+      letter-spacing: 2px;
+      backdrop-filter: blur(4px);
+      padding: 4px 16px;
+      border-radius: 40px;
+    }
+
+    /* responsive elegance */
+    @media (max-width: 550px) {
+      #box1, #video_container {
+        height: 40vh;
+        max-height: 340px;
+        border-radius: 36px;
+      }
+
+      #text {
+        font-size: 2rem;
+        padding: 0.5rem 1.8rem;
+        letter-spacing: 5px;
+      }
+
+      #gift {
+        padding: 16px 40px;
+        font-size: 1.7rem;
+        margin: 24px 0 20px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- Background Video -->
-<video autoplay muted loop id="bgvideo">
-    <source src="download.mp4" type="video/mp4">
-</video>
+  <!-- background video (dreamy) -->
+  <div class="bg-video-wrapper">
+    <video autoplay muted loop id="bgvideo">
+      <source src="download.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="glow-overlay"></div>
+  <div class="orb"></div>
+  <div class="orb2"></div>
 
-<!-- Click Box -->
+  <!-- main clickable card (box1) -->
+  <div class="card-container">
+    <div id="box1">
+      <h1 id="text">✨  click  ✨</h1>
+      <video id="video1" playsinline loop>
+        <source src="video.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
 
-<div id="box1">
+  <!-- gift button -->
+  <div class="button-wrapper">
+    <button id="gift">🎁  gift time  🎁</button>
+  </div>
 
-<h1 id="text">Click Here</h1>
+  <!-- second video container -->
+  <div class="video2-wrapper">
+    <div id="video_container">
+      <video id="video3" controls playsinline>
+        <source src="gift.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
 
-<video id="video1">
-<source src="video.mp4" type="video/mp4">
-</video>
+  <div class="foot-note">❤️  tap the card · then the gift  ❤️</div>
 
-</div>
+  <script>
+    (function() {
+      // get elements (exactly as your original, plus some safety)
+      const box1 = document.getElementById('box1');
+      const video1 = document.getElementById('video1');
+      const text = document.getElementById('text');
+      const gift = document.getElementById('gift');
+      const video3 = document.getElementById('video3');
 
-<!-- Gift Button -->
+      // optional: graceful video load logs (no console noise if missing)
+      if (video1) {
+        video1.addEventListener('error', () => console.log('✨ video.mp4 will appear once available'));
+      }
+      if (video3) {
+        video3.addEventListener('error', () => console.log('🎬 gift.mp4 ready to roll'));
+      }
 
-<button id="gift">GIFT TIME</button>
+      // ---- step 1: click box1 ----
+      box1.addEventListener('click', function onClickBox() {
+        // hide text with classy fade
+        if (text) {
+          text.style.transition = 'opacity 0.25s';
+          text.style.opacity = '0';
+          setTimeout(() => {
+            text.style.display = 'none';
+          }, 200);
+        }
 
-<!-- Second Video -->
+        // show & play first video
+        if (video1) {
+          video1.style.display = 'block';
+          // gentle volume (if file supports audio)
+          video1.volume = 0.3;
+          video1.play().catch(e => {
+            // if browser blocks autoplay, show controls
+            video1.controls = true;
+          });
+        }
 
-<div id="video_container">
+        // reveal gift button
+        if (gift) {
+          gift.style.display = 'inline-block';
+          gift.style.opacity = '0';
+          gift.style.transition = 'opacity 0.5s';
+          setTimeout(() => { gift.style.opacity = '1'; }, 30);
+        }
 
-<video id="video3" controls>
-<source src="gift.mp4" type="video/mp4">
-</video>
+        // optional: remove listener if you want single activation
+        box1.removeEventListener('click', onClickBox);
+      });
 
-</div>
-<script src="video.js"></script>
+      // ---- step 2: click gift button ----
+      gift.addEventListener('click', function onGift() {
+        // hide first video (card video)
+        if (video1) {
+          video1.pause(); // optional pause
+          video1.style.display = 'none';
+        }
 
+        // show second video (gift reveal)
+        if (video3) {
+          video3.style.display = 'block';
+          video3.volume = 0.4;
+          video3.play().catch(e => {
+            video3.controls = true; // fallback if autoplay blocked
+          });
+
+          // scroll container smoothly into view (adds to wow)
+          video3.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // transform gift button to “opened” state
+        gift.textContent = '🎁  opened  🎁';
+        gift.style.background = 'linear-gradient(145deg, #ad7b8f, #8a576b)';
+        gift.style.boxShadow = '0 8px 18px #521f33';
+        gift.style.transform = 'scale(0.96)';
+        gift.style.pointerEvents = 'none';
+        gift.style.animation = 'none';
+        gift.style.filter = 'grayscale(0.4)';
+        gift.style.letterSpacing = '2px';
+      });
+
+      // tiny extra: if box1 double-click etc, no break
+      // also ensure video container looks enticing from start
+    })();
+  </script>
+
+  <!-- REMINDER: these videos make the magic! 
+       place download.mp4, video.mp4, gift.mp4 in same folder -->
 </body>
 </html>
-
-
-

@@ -19,10 +19,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* This centers vertically */
       min-height: 100vh;
       margin: 0;
-      padding: 16px;
+      padding: 20px;
+      position: relative;
     }
 
     /* ---------- enchanted background layer ---------- */
@@ -90,12 +91,23 @@
       100% { transform: translate(-40px, -30px) scale(1); }
     }
 
+    /* Main content wrapper - this ensures perfect centering */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+    }
+
     /* ---------- main gift card (box1) ---------- */
     .card-container {
       width: 100%;
       display: flex;
       justify-content: center;
-      margin-bottom: 24px;
+      margin: 0;  /* Removed bottom margin */
     }
 
     #box1 {
@@ -173,11 +185,13 @@
       width: 100%;
       display: flex;
       justify-content: center;
+      margin-top: 30px;  /* Added space between box and button */
+      margin-bottom: 10px;
     }
 
     #gift {
-      padding: 20px 60px;
-      font-size: 2rem;
+      padding: 18px 50px;
+      font-size: 1.8rem;
       font-weight: 700;
       letter-spacing: 3px;
       background: linear-gradient(145deg, #ff8aae, #ff4f75, #bc6cff);
@@ -189,7 +203,6 @@
       box-shadow: 0 30px 40px -10px #b31e4b, 0 0 40px #ffbaca, 0 5px 0 #832a48;
       cursor: pointer;
       display: none;
-      margin: 32px 0 28px;
       border: 1px solid rgba(255, 255, 255, 0.6);
       transition: 0.25s ease-out;
       animation: pulseGlow 3s infinite alternate;
@@ -212,16 +225,18 @@
       box-shadow: 0 12px 20px #a13055;
     }
 
-    /* extra charm note */
+    /* extra charm note - now at bottom with less impact on centering */
     .foot-note {
       color: rgba(255, 220, 240, 0.4);
       font-size: 0.9rem;
-      margin-top: 20px;
+      margin-top: 15px;
       font-weight: 300;
       letter-spacing: 2px;
       backdrop-filter: blur(4px);
       padding: 4px 16px;
       border-radius: 40px;
+      position: relative;
+      bottom: 0;
     }
 
     /* responsive elegance */
@@ -239,9 +254,24 @@
       }
 
       #gift {
-        padding: 16px 40px;
-        font-size: 1.7rem;
-        margin: 24px 0 20px;
+        padding: 14px 35px;
+        font-size: 1.5rem;
+        margin: 20px 0 10px;
+      }
+      
+      .button-wrapper {
+        margin-top: 20px;
+      }
+    }
+
+    /* For very short screens */
+    @media (max-height: 700px) {
+      #box1 {
+        height: 35vh;
+      }
+      
+      .button-wrapper {
+        margin-top: 15px;
       }
     }
   </style>
@@ -258,25 +288,28 @@
   <div class="orb"></div>
   <div class="orb2"></div>
 
-  <!-- main clickable card (box1) - contains BOTH videos -->
-  <div class="card-container">
-    <div id="box1">
-      <h1 id="text">✨  click  ✨</h1>
-      <video id="video1" playsinline loop>
-        <source src="video.mp4" type="video/mp4">
-      </video>
-      <video id="video3" playsinline controls>
-        <source src="gift.mp4" type="video/mp4">
-      </video>
+  <!-- Main content wrapper for perfect centering -->
+  <div class="main-content">
+    <!-- main clickable card (box1) - contains BOTH videos -->
+    <div class="card-container">
+      <div id="box1">
+        <h1 id="text">✨  click  ✨</h1>
+        <video id="video1" playsinline loop>
+          <source src="video.mp4" type="video/mp4">
+        </video>
+        <video id="video3" playsinline controls>
+          <source src="gift.mp4" type="video/mp4">
+        </video>
+      </div>
     </div>
-  </div>
 
-  <!-- gift button -->
-  <div class="button-wrapper">
-    <button id="gift">🎁  gift time  🎁</button>
-  </div>
+    <!-- gift button -->
+    <div class="button-wrapper">
+      <button id="gift">🎁  gift time  🎁</button>
+    </div>
 
-  <div class="foot-note">❤️  tap the card · then the gift  ❤️</div>
+    <div class="foot-note">❤️  tap the card · then the gift  ❤️</div>
+  </div>
 
   <script>
     (function() {

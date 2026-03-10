@@ -18,7 +18,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: center;   /* ← this guarantees vertical centering */
       font-family: 'Space Grotesk', sans-serif;
       background: #0a0105;
       padding: 20px;
@@ -90,7 +90,7 @@
       100% { transform: translate(-70px, -30px) scale(1); }
     }
 
-    /* ---------- main card (always perfectly centered) ---------- */
+    /* ---------- main card – absolutely centered (horiz + vert) ---------- */
     #box1 {
       position: relative;
       width: 90%;
@@ -109,7 +109,8 @@
       overflow: hidden;
       transition: box-shadow 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.3), transform 0.3s ease;
       border: 1px solid rgba(255, 245, 250, 0.3);
-      margin: 0 auto;
+      /* remove any auto margins, rely on flex container */
+      margin: 0;                 /* was margin: 0 auto – not needed because body flex already centers */
     }
 
     #box1.has-video {
@@ -238,19 +239,18 @@
   <div class="orb"></div>
   <div class="orb2"></div>
 
-  <!-- main card (perfectly centered) -->
+  <!-- main card – now perfectly centered (flex container does the job) -->
   <div id="box1">
-    <!-- glow gift button (replaces old click text) -->
+    <!-- glow gift button -->
     <button id="glowGiftBtn">🎁  gift time  🎁</button>
 
-    <!-- single video player (replaces video1 & video3) -->
+    <!-- single video player -->
     <video id="playerVideo" playsinline controls>
       <source src="video.mp4" type="video/mp4">
-      <!-- fallback: if you want a different gift video, just replace video.mp4 -->
     </video>
   </div>
 
-  <!-- simple footnote (optional) -->
+  <!-- simple footnote -->
   <div class="foot-note">✨  click the glow button · surprise plays  ✨</div>
 
   <script>
@@ -261,18 +261,18 @@
 
       // initial: button visible, video hidden
       player.style.display = 'none';
-      box.classList.remove('video-active');   // ensure no conflict
+      box.classList.remove('video-active');
 
       // click on glow button → hide button, show & play video
       glowBtn.addEventListener('click', function(e) {
-        e.stopPropagation();  // prevent any accidental box click
+        e.stopPropagation();
 
         // hide the gorgeous button
         glowBtn.style.display = 'none';
 
         // show video player
         player.style.display = 'block';
-        box.classList.add('video-active');    // mark state for any future styling
+        box.classList.add('video-active');
 
         // play video with moderate volume
         player.volume = 0.5;
@@ -281,32 +281,24 @@
           player.controls = true;   // fallback: user can press play
         });
 
-        // optional extra glow on card
+        // extra glow on card
         box.style.transition = 'box-shadow 0.4s';
         box.style.boxShadow = '0 0 0 4px #ffe6f0, 0 0 100px #ff9ec7, 0 40px 70px -15px #2c0e1d';
       });
 
-      // if user clicks on box but not the button (edge case), do nothing (but we can re-target)
-      // we want button to be only trigger. so no extra listener on box.
-      // but we can add a gentle reminder: if video ends, we could do something, but not needed.
-
-      // Optional: when video ends, keep showing video (user can replay with controls)
-      // no need to bring button back, as it's a one‑time surprise. matches "video3 concept removed"
-
-      // for safety, if video src fails, show message in console
+      // if video src fails, show message in console
       player.addEventListener('error', () => {
         console.log('🎬 please place video.mp4 in folder — or rename your gift video to video.mp4');
       });
 
-      // tiny polish: if someone double‑clicks button, nothing breaks
     })();
   </script>
 
   <!-- 
-    VIDEO SETUP (simplified):
+    VIDEO SETUP:
     - background: download.mp4 (ambient)
-    - main video: video.mp4  (your surprise clip — rename any gift video to video.mp4)
-    No second video, no extra gift button below — the glow button is the star.
+    - main video: video.mp4  (your surprise clip)
+    The box is now perfectly centered horizontally & vertically.
   -->
 </body>
 </html>

@@ -19,7 +19,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; /* This centers vertically */
+      justify-content: center; /* Perfect centering */
       min-height: 100vh;
       margin: 0;
       padding: 20px;
@@ -91,25 +91,7 @@
       100% { transform: translate(-40px, -30px) scale(1); }
     }
 
-    /* Main content wrapper - this ensures perfect centering */
-    .main-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      position: relative;
-      z-index: 10;
-    }
-
     /* ---------- main gift card (box1) ---------- */
-    .card-container {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin: 0;  /* Removed bottom margin */
-    }
-
     #box1 {
       position: relative;
       width: 90%;
@@ -180,16 +162,12 @@
       box-shadow: inset 0 0 30px #ffa0bb;
     }
 
-    /* ---------- gift button (luxe) ---------- */
-    .button-wrapper {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;  /* Added space between box and button */
-      margin-bottom: 10px;
-    }
-
+    /* ---------- gift button (luxe) - ABSOLUTE POSITIONED ---------- */
     #gift {
+      position: fixed;
+      bottom: 80px;  /* Fixed distance from bottom */
+      left: 50%;
+      transform: translateX(-50%);
       padding: 18px 50px;
       font-size: 1.8rem;
       font-weight: 700;
@@ -207,6 +185,7 @@
       transition: 0.25s ease-out;
       animation: pulseGlow 3s infinite alternate;
       backdrop-filter: blur(6px);
+      z-index: 100;
     }
 
     @keyframes pulseGlow {
@@ -215,28 +194,31 @@
     }
 
     #gift:hover {
-      transform: scale(1.07) translateY(-5px);
+      transform: translateX(-50%) scale(1.07) translateY(-5px);
       background: linear-gradient(145deg, #ffb7cf, #ff6f94, #d28eff);
       box-shadow: 0 40px 60px -8px #ff3e6b, 0 0 90px #ffe4f0;
     }
 
     #gift:active {
-      transform: scale(0.96) translateY(4px);
+      transform: translateX(-50%) scale(0.96) translateY(4px);
       box-shadow: 0 12px 20px #a13055;
     }
 
-    /* extra charm note - now at bottom with less impact on centering */
+    /* extra charm note - ABSOLUTE POSITIONED */
     .foot-note {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
       color: rgba(255, 220, 240, 0.4);
       font-size: 0.9rem;
-      margin-top: 15px;
       font-weight: 300;
       letter-spacing: 2px;
       backdrop-filter: blur(4px);
       padding: 4px 16px;
       border-radius: 40px;
-      position: relative;
-      bottom: 0;
+      z-index: 100;
+      white-space: nowrap;
     }
 
     /* responsive elegance */
@@ -256,11 +238,12 @@
       #gift {
         padding: 14px 35px;
         font-size: 1.5rem;
-        margin: 20px 0 10px;
+        bottom: 70px;
       }
       
-      .button-wrapper {
-        margin-top: 20px;
+      .foot-note {
+        bottom: 25px;
+        font-size: 0.8rem;
       }
     }
 
@@ -270,8 +253,21 @@
         height: 35vh;
       }
       
-      .button-wrapper {
-        margin-top: 15px;
+      #gift {
+        bottom: 60px;
+        padding: 12px 30px;
+        font-size: 1.3rem;
+      }
+      
+      .foot-note {
+        bottom: 20px;
+      }
+    }
+
+    /* For very tall screens */
+    @media (min-height: 900px) {
+      #gift {
+        bottom: 100px;
       }
     }
   </style>
@@ -288,28 +284,22 @@
   <div class="orb"></div>
   <div class="orb2"></div>
 
-  <!-- Main content wrapper for perfect centering -->
-  <div class="main-content">
-    <!-- main clickable card (box1) - contains BOTH videos -->
-    <div class="card-container">
-      <div id="box1">
-        <h1 id="text">✨  click  ✨</h1>
-        <video id="video1" playsinline loop>
-          <source src="video.mp4" type="video/mp4">
-        </video>
-        <video id="video3" playsinline controls>
-          <source src="gift.mp4" type="video/mp4">
-        </video>
-      </div>
-    </div>
-
-    <!-- gift button -->
-    <div class="button-wrapper">
-      <button id="gift">🎁  gift time  🎁</button>
-    </div>
-
-    <div class="foot-note">❤️  tap the card · then the gift  ❤️</div>
+  <!-- main clickable card (box1) - PERFECTLY CENTERED -->
+  <div id="box1">
+    <h1 id="text">✨  click  ✨</h1>
+    <video id="video1" playsinline loop>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+    <video id="video3" playsinline controls>
+      <source src="gift.mp4" type="video/mp4">
+    </video>
   </div>
+
+  <!-- gift button - FIXED POSITION -->
+  <button id="gift">🎁  gift time  🎁</button>
+
+  <!-- foot note - FIXED POSITION -->
+  <div class="foot-note">❤️  tap the card · then the gift  ❤️</div>
 
   <script>
     (function() {
@@ -387,7 +377,7 @@
         gift.textContent = '🎁  opened  🎁';
         gift.style.background = 'linear-gradient(145deg, #ad7b8f, #8a576b)';
         gift.style.boxShadow = '0 8px 18px #521f33';
-        gift.style.transform = 'scale(0.96)';
+        gift.style.transform = 'translateX(-50%) scale(0.96)';
         gift.style.pointerEvents = 'none';
         gift.style.animation = 'none';
         gift.style.filter = 'grayscale(0.4)';

@@ -154,8 +154,8 @@
       transform: scale(1.02) rotate(-0.2deg);
     }
 
-    /* first video (reveal inside card) */
-    #video1 {
+    /* videos inside the SAME container */
+    #video1, #video3 {
       position: absolute;
       top: 0;
       left: 0;
@@ -212,40 +212,6 @@
       box-shadow: 0 12px 20px #a13055;
     }
 
-    /* ---------- second video container (final surprise) ---------- */
-    .video2-wrapper {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      display : none;
-    }
-
-    #video_container {
-      width: 90%;
-      max-width: 620px;
-      height: 52vh;
-      max-height: 460px;
-      border-radius: 42px;
-      background: #190e14;
-      box-shadow: 0 30px 55px -15px #3f1326, 0 0 0 2px #ffb7cc, 0 0 60px #c44f7b;
-      overflow: hidden;
-      transition: 0.4s;
-      margin-top: 10px;
-    }
-
-    #video_container:hover {
-      box-shadow: 0 35px 70px -10px #ff88ae, 0 0 0 4px #ffe3f0, 0 0 80px #ff98bb;
-    }
-
-    #video3 {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 42px;
-      display: none;
-      background: #12080d;
-    }
-
     /* extra charm note */
     .foot-note {
       color: rgba(255, 220, 240, 0.4);
@@ -260,7 +226,7 @@
 
     /* responsive elegance */
     @media (max-width: 550px) {
-      #box1, #video_container {
+      #box1 {
         height: 40vh;
         max-height: 340px;
         border-radius: 36px;
@@ -292,12 +258,15 @@
   <div class="orb"></div>
   <div class="orb2"></div>
 
-  <!-- main clickable card (box1) -->
+  <!-- main clickable card (box1) - contains BOTH videos -->
   <div class="card-container">
     <div id="box1">
       <h1 id="text">✨  click  ✨</h1>
       <video id="video1" playsinline loop>
         <source src="video.mp4" type="video/mp4">
+      </video>
+      <video id="video3" playsinline controls>
+        <source src="gift.mp4" type="video/mp4">
       </video>
     </div>
   </div>
@@ -307,27 +276,22 @@
     <button id="gift">🎁  gift time  🎁</button>
   </div>
 
-  <!-- second video container -->
-  <div class="video2-wrapper">
-    <div id="video_container">
-      <video id="video3" controls playsinline>
-        <source src="gift.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-
   <div class="foot-note">❤️  tap the card · then the gift  ❤️</div>
 
   <script>
     (function() {
-      // get elements (exactly as your original, plus some safety)
+      // get elements
       const box1 = document.getElementById('box1');
       const video1 = document.getElementById('video1');
+      const video3 = document.getElementById('video3');
       const text = document.getElementById('text');
       const gift = document.getElementById('gift');
-      const video3 = document.getElementById('video3');
 
-      // optional: graceful video load logs (no console noise if missing)
+      // initial state: only text visible, both videos hidden
+      video1.style.display = 'none';
+      video3.style.display = 'none';
+      
+      // optional: error logging
       if (video1) {
         video1.addEventListener('error', () => console.log('✨ video.mp4 will appear once available'));
       }
@@ -346,10 +310,10 @@
           }, 200);
         }
 
-        // show & play first video
+        // show & play first video (video1)
         if (video1) {
           video1.style.display = 'block';
-          // gentle volume (if file supports audio)
+          video3.style.display = 'none'; // ensure video3 is hidden
           video1.volume = 0.3;
           video1.play().catch(e => {
             // if browser blocks autoplay, show controls
@@ -365,28 +329,25 @@
           setTimeout(() => { gift.style.opacity = '1'; }, 30);
         }
 
-        // optional: remove listener if you want single activation
+        // remove listener if you want single activation
         box1.removeEventListener('click', onClickBox);
       });
 
       // ---- step 2: click gift button ----
       gift.addEventListener('click', function onGift() {
-        // hide first video (card video)
+        // hide first video
         if (video1) {
-          video1.pause(); // optional pause
+          video1.pause();
           video1.style.display = 'none';
         }
 
-        // show second video (gift reveal)
+        // show second video in THE SAME container
         if (video3) {
           video3.style.display = 'block';
           video3.volume = 0.4;
           video3.play().catch(e => {
             video3.controls = true; // fallback if autoplay blocked
           });
-
-          // scroll container smoothly into view (adds to wow)
-          video3.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // transform gift button to “opened” state
@@ -398,10 +359,12 @@
         gift.style.animation = 'none';
         gift.style.filter = 'grayscale(0.4)';
         gift.style.letterSpacing = '2px';
+        
+        // optional: show that box1 is now playing final surprise
+        box1.style.boxShadow = '0 0 0 3px #ffd0e0, 0 0 70px #ff9ec7';
       });
 
       // tiny extra: if box1 double-click etc, no break
-      // also ensure video container looks enticing from start
     })();
   </script>
 
@@ -409,4 +372,3 @@
        place download.mp4, video.mp4, gift.mp4 in same folder -->
 </body>
 </html>
-
